@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<!-- 여러 개의 mapper를 만들게 될 때 혼동되지 않도록 package를 부여하는 것 -->
+<!-- 절대 SQL구문에 세미콜론을 입력해서는 안된다 -->
+<!-- parametertype은 mybatis-config.xml에서 alias로 설정해준다. -->
+<!-- where문에 조건 변수를 지정해 줄 때 setId()라는 setter함수를 property 변환을 적용하여 id 라고만 적는다. -->
+<mapper namespace="com.sinc.intern.test">
+	<select id="login" parameterType="UserDTO" resultType="UserVO">
+		SELECT	ID
+			  , PWD
+			  , NAME
+			  , POINT
+			  , DEPT
+		FROM	INTERN_USER_TBL
+		WHERE	ID = #{id} AND PWD = #{pwd}
+	</select>
+</mapper>  
+
+
+
+
+
+
+
+
+
+
+
