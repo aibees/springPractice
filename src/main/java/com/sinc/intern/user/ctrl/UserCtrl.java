@@ -29,6 +29,13 @@ public class UserCtrl {
 		session.setAttribute("loginUser", user);
 		return "redirect:/main.do"; 
 	}
+	
+	@RequestMapping("/user/logout.do")
+	public String logout(HttpSession session)
+	{
+		session.removeAttribute("loginUser");
+		return "/user/login";
+	}
 //
 //	@RequestMapping("/login.do")
 //	public String login(UserDTO dto) {

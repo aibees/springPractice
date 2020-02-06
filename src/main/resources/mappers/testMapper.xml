@@ -14,6 +14,7 @@
 			  , NAME
 			  , POINT
 			  , DEPT
+			  , IMGSRC
 		FROM	INTERN_USER_TBL
 		WHERE	ID = #{id} AND PWD = #{pwd}
 	</select>

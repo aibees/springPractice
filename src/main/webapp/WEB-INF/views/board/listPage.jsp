@@ -65,7 +65,7 @@
 				<!-- /.box-body -->
 
 
-				<div class="box-footer">
+				<%-- <div class="box-footer">
 
 					<div class="text-center">
 							<!--  -->
@@ -82,7 +82,7 @@
 
 							<!--  -->
 					</div>
-				</div>
+				</div> --%>
 			</div>
 		</div>
 	</div>

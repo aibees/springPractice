@@ -7,26 +7,14 @@
 <!-- 절대 SQL구문에 세미콜론을 입력해서는 안된다 -->
 <!-- parametertype은 mybatis-config.xml에서 alias로 설정해준다. -->
 <!-- where문에 조건 변수를 지정해 줄 때 setId()라는 setter함수를 property 변환을 적용하여 id 라고만 적는다. -->
-<mapper namespace="com.sinc.intern.test">
-	<select id="login" parameterType="UserDTO" resultType="UserVO">
-		SELECT	ID
-			  , PWD
-			  , NAME
-			  , POINT
-			  , DEPT
-			  , IMGSRC
-		FROM	INTERN_USER_TBL
-		WHERE	ID = #{id} AND PWD = #{pwd}
+<mapper namespace="com.sinc.intern.board">
+	<select id="list" resultType="boardvo">
+		SELECT	SEQ
+			  , TITLE
+			  , CONTENT
+			  , WRITER
+			  , REGDATE
+			  , VIEWCNT
+		FROM	INTERN_BOARD_TBL
 	</select>
 </mapper>  
-
-
-
-
-
-
-
-
-
-
-
