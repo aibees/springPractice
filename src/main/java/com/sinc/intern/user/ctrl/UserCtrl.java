@@ -4,6 +4,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -22,19 +23,21 @@ public class UserCtrl {
 		return "/user/login";
 	}
 	
+	//interceptor에서 redirect를 해주기 때문에 Controller에서 forward할 필요가 없다. 
 	@RequestMapping(value="/login.do", method=RequestMethod.POST)
-	public String login(UserDTO dto, HttpSession session) {
+	public void login(UserDTO dto, Model model) {
 		System.out.println("login post");
 		Object user = service.login(dto);
-		session.setAttribute("loginUser", user);
-		return "redirect:/main.do"; 
+		if(user != null)
+			model.addAttribute("loginUserModel", user);
+		System.out.println("login ctrl end");
+		return; 
 	}
 	
 	@RequestMapping("/user/logout.do")
-	public String logout(HttpSession session)
-	{
-		session.removeAttribute("loginUser");
-		return "/user/login";
+	public String logout() {
+		System.out.println("user logout");
+		return "redirect:/main.do";
 	}
 //
 //	@RequestMapping("/login.do")

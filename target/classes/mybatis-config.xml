@@ -7,6 +7,7 @@
 		<typeAlias type="com.sinc.intern.user.model.vo.UserDTO" alias="userdto"/>
 		<typeAlias type="com.sinc.intern.user.model.vo.UserVO" alias="uservo"/>
 		<typeAlias type="com.sinc.intern.board.model.vo.BoardVO" alias="boardvo"/>
+		<typeAlias type="com.sinc.intern.board.model.vo.BoardDTO" alias="boarddto"/>
 	</typeAliases>
 </configuration>
 

@@ -15,4 +15,9 @@ public class HomeController {
 		return "home";
 	}
 	
+	@RequestMapping("/interceptor.do")
+	public String interceptorsample () {
+		System.out.println("interceptor test");
+		return null;
+	}
 }

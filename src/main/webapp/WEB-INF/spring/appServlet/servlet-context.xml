@@ -24,5 +24,30 @@
 	<context:component-scan base-package="com.sinc.intern, com.sinc.intern.user.ctrl" />
 	
 	
+	<beans:bean id="sample" class="com.sinc.intern.util.interceptor.TestInterceptor" />
+	<beans:bean id="login" class="com.sinc.intern.user.util.LoginInterceptor" />
+	<beans:bean id="logout" class="com.sinc.intern.user.util.LogoutInterceptor" />
+	<beans:bean id="session" class="com.sinc.intern.user.util.SessionChkInterceptor" />
+	<interceptors>
+		<interceptor>
+			<mapping path="/interceptor.do" />
+			<beans:ref bean="sample"/>
+		</interceptor>
+		
+		<interceptor>
+			<mapping path="/login.do" />
+			<beans:ref bean="login"/>
+		</interceptor>
+		
+		<interceptor>
+			<mapping path="/board/registerForm.do" />
+			<beans:ref bean="session"/>
+		</interceptor>
+		
+		<interceptor>
+			<mapping path="/logout.do" />
+			<beans:ref bean="logout"/>
+		</interceptor>
+	</interceptors>
 	
 </beans:beans>

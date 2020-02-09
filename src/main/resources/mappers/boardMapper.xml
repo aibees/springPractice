@@ -8,13 +8,65 @@
 <!-- parametertype은 mybatis-config.xml에서 alias로 설정해준다. -->
 <!-- where문에 조건 변수를 지정해 줄 때 setId()라는 setter함수를 property 변환을 적용하여 id 라고만 적는다. -->
 <mapper namespace="com.sinc.intern.board">
+	<update id="upCnt" parameterType="java.lang.Integer">
+		UPDATE INTERN_BOARD_TBL
+		SET	   VIEWCNT = VIEWCNT + 1
+		WHERE  SEQ = #{seq}
+	</update>
+
 	<select id="list" resultType="boardvo">
 		SELECT	SEQ
 			  , TITLE
 			  , CONTENT
 			  , WRITER
-			  , REGDATE
+			  , TO_CHAR(REGDATE, 'YYYY-MM-DD') as REGDATE
 			  , VIEWCNT
 		FROM	INTERN_BOARD_TBL
+		ORDER BY SEQ
+	</select>
+	
+	<select id="detail" parameterType="java.lang.Integer" resultType="boardvo">
+		SELECT	SEQ
+			  , TITLE
+			  , CONTENT
+			  , WRITER
+			  , TO_CHAR(REGDATE, 'YYYY-MM-DD') as REGDATE
+			  , VIEWCNT
+		FROM	INTERN_BOARD_TBL
+		WHERE	SEQ = #{seq}
+	</select>
+	
+	<insert id="register" parameterType="boarddto">
+		INSERT INTO INTERN_BOARD_TBL
+		VALUES( BOARD_SEQ.NEXTVAL
+			  , #{title}
+			  , #{content}
+			  , #{writer}
+			  , DEFAULT
+			  , DEFAULT )
+	</insert>
+	
+	<delete id="remove" parameterType="java.lang.Integer">
+		DELETE FROM INTERN_BOARD_TBL WHERE SEQ = #{seq}
+	</delete>
+	
+	<update id="modify" parameterType="boardvo">
+		UPDATE INTERN_BOARD_TBL
+		SET TITLE = #{title},
+			CONTENT = #{content}
+		WHERE SEQ = #{seq}
+	</update>
+	
+	<select id="search" parameterType="java.util.Map" resultType="boardvo">
+		SELECT	SEQ, TITLE, WRITER,	TO_CHAR(REGDATE, 'RRRR-MM-DD') AS REGDATE, VIEWCNT
+		FROM	INTERN_BOARD_TBL
+		<where>
+			<if test="type == 'title'">
+				TITLE LIKE '%'||#{keyword}||'%'
+			</if>
+			<if test="type == 'writer'">
+				WRITER LIKE '%'||#{keyword}||'%'
+			</if>
+		</where>
 	</select>
 </mapper>  

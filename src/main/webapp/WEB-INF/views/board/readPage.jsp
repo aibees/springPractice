@@ -24,17 +24,18 @@
     <input type='hidden' name='perPageNum' value ="${cri.perPageNum}">
     
 </form>   
---%>    
+--%>
+  <input type="hidden" id="seq" value="${board.seq}">    
   <div class="box-body">
     <div class="form-group">
       <label for="exampleInputEmail1">Title</label>
       <input type="text" name='title' class="form-control" 
-         value="${board.title}" readonly="readonly">
+         value="${board.title}" id="title">
     </div>
     <div class="form-group">
       <label for="exampleInputPassword1">Content</label>
       <textarea class="form-control"  name="content" rows="3" 
-      readonly="readonly">${board.content}</textarea>
+      id="content">${board.content}</textarea>
     </div>
     <div class="form-group">
       <label for="exampleInputEmail1" >Writer</label>
@@ -44,7 +45,7 @@
   </div><!-- /.box-body -->
 
   <div class="box-footer">
-	<c:if test="${ loginUser.uname == board.writer }">
+	<c:if test="${ loginUser.id == board.writer }">
 	<button id="modify" type="button" class="btn btn-warning">Modify</button> 
 	<button id="remove" type="button" class="btn btn-danger">REMOVE</button> 
     </c:if>
@@ -72,7 +73,7 @@
 			</div>
 
 		
-		<!-- The time line -->
+		<%-- <!-- The time line -->
 		<ul class="timeline">
 		  	<!-- timeline time label -->
 			<li class="time-label" id="repliesDiv">
@@ -96,7 +97,7 @@
 
 				</ul>
 			</div>
-
+ --%>
 		</div>
 		<!-- /.col -->
 	</div>
@@ -104,101 +105,22 @@
 
 
 <script>
-	function removeReply(seq,bno) {
-		alert(seq);
-		
-		$.ajax({
-			url  : "replyRemove" , 
-			type : "post" , 
-			data : { rseq : seq , bno : bno} ,
-			dataType : "json" , 
-			success : function(ary) {
-				$("#rlist").empty(); // remove() 
-				var txt = "";
-				$.each(ary , function(idx, obj) {
-					txt += "<li class='time-label'>"+obj.rcontent;
-					txt += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-					txt += "<a href='javascript:removeReply("+obj.rseq+","+obj.bno+")'>X</a></li>";
-				});
-				$("#rlist").append(txt);
-			}
-		});
-		 
-	}
 
 	$(document).ready(function() {
 		$("#list").click(function() {
-			location.href="listPage" ; 
+			location.href="/board/listPage.do" ; 
 		});
 		$("#remove").click(function() {
-			location.href="removePage?bno="+${board.bno} ; 
+			location.href="/board/removePage.do?seq="+${board.seq} ; 
 		});
 		$("#modify").click(function() {
-			location.href="modifyPage?bno="+${board.bno} ; 
+			location.href="/board/modifyPage.do?seq=" + $("#seq").val() + "&title=" + $("#title").val() + "&content=" + $("#content").val() ; 
 		});
 		
-		$("#replyAddBtn").click(function() {
-			$.ajax({
-				url  : "replyInsert" , 
-				type : "post" , 
-				data : {rwriter : $("#newReplyWriter").val() ,
-					    rcontent : $("#newReplyText").val()  , 
-					    bno : ${board.bno}
-					   } ,
-				dataType : "json" , 
-				success : function(ary) {
-					$("#rlist").empty(); // remove() 
-					var txt = "";
-					$.each(ary , function(idx, obj) {
-						txt += "<li class='time-label'>"+obj.rcontent;
-						txt += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-						txt += "<a href='javascript:removeReply("+obj.rseq+","+obj.bno+")'>X</a></li>";
-					});
-					$("#rlist").append(txt);
-				}
-			});
-			/////////
-		});
+		///////////////////////////////////////////////////////////////
+		
+		
 	});
-
-/* 
-$(document).ready(function(){
-	
-	var formObj = $("form[role='form']");
-	
-	console.log(formObj);
-	
-	if(${boardVO.writer==sessionScope.loginUser.uname}
-	  || ${sessionScope.loginUser.uname=='관리자'}){
-		$(".box-footer").html(
-				'<button type="submit" class="btn btn-warning">Modify</button> '
-			   +'<button type="submit" class="btn btn-danger">REMOVE</button> '
-			   +'<button type="submit" class="btn btn-primary">GO LIST </button>');
-	}
-});
-
-$(document).on("click", ".btn-warning", function(){
-	var formObj = $("form[role='form']");
-	formObj.attr("action", "/board/modifyPage.do");
-	formObj.attr("method", "get");		
-	formObj.submit();
-});
-
-$(document).on("click", ".btn-danger", function(){
-	var formObj = $("form[role='form']");
-	if(confirm("게시물을 삭제하시겠습니까?")){	
-		formObj.attr("action", "/board/removePage.do");
-		formObj.submit();
-	}
-});
-
-$(document).on("click", ".btn-primary", function(){
-	var formObj = $("form[role='form']");
-	formObj.attr("method", "get");
-	formObj.attr("action", "/board/listPage.do");
-	formObj.submit();
-});
-*/
 </script>
 
 

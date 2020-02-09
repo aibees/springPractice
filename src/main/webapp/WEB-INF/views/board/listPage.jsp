@@ -52,7 +52,7 @@
 
 							<tr>
 								<td>${boardVO.seq}</td>
-	<td><a  href='readPage.sinc?seq=${boardVO.seq}'>${boardVO.title}</a></td>
+	<td><a  href='/board/readPage.do?seq=${boardVO.seq}'>${boardVO.title}</a></td>
 								<td>${boardVO.writer}</td>
 								<td>${boardVO.regdate}</td>
 								<td><span class="badge bg-red">${boardVO.viewcnt }</span></td>
@@ -125,21 +125,23 @@
 // 	});
 	
 	$("#newBtn").on("click", function() {
-		location.href="register.sinc";
+		location.href="/board/registerForm.do";
 	});
 	
 	$("#searchBtn").click(function() {
 		$.ajax({
-			url  : "search" , 
+			url  : "/board/search.do" , 
 			type : "post" , 
-			dataType : "json" , 
-			data : { type : $("#searchType").val() , keyword : $("#searchKeyword").val() } ,
+			dataType : "json" ,
+			contentType:'application/json; charset=utf-8',
+			data : JSON.stringify({ type : $("#searchType").val() , keyword : $("#searchKeyword").val() }) ,
 			success : function(data) {
+				alert(data)
 				$("#tbody").empty();
 				var txt = "";
 				$.each(data , function(idx, obj) {
-					txt +="<tr><td>"+obj.bno+"</td>" ; 
-					txt +="<td><a href='readPage?bno="+obj.bno+"'>"+obj.title+"</a></td>";
+					txt +="<tr><td>"+obj.seq+"</td>" ; 
+					txt +="<td><a href='readPage?seq="+obj.seq+"'>"+obj.title+"</a></td>";
 					txt +="<td>"+obj.writer+"</td>";
 					txt +="<td>"+obj.regdate+"</td>";
 					txt +="<td><span class='badge bg-red'>"+obj.viewcnt+"</span></td></tr>" ; 
